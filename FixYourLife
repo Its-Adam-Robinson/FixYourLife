@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>1-Day Reset Protocol — Interactive Guide</title>
+  <style>
+    :root{
+      --bg:#060608;--panel:#0b0c10;--accent:#2dd4bf;--accent-2:#60a5fa;--muted:#9aa4b2;--glass:rgba(255,255,255,0.03);
+      --radius:12px;--shadow:0 6px 24px rgba(0,0,0,0.6);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:system-ui,Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#040405 0%, #0b0c10 100%);color:#fff;line-height:1.5}
+    .app{max-width:920px;margin:28px auto;padding:24px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:16px;box-shadow:var(--shadow)}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+    header h1{font-size:18px;margin:0}
+    .progress{height:12px;background:var(--glass);border-radius:999px;overflow:hidden;width:60%}
+    .progress > i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .45s ease}
+    .stepper{margin-top:6px;color:var(--muted);font-size:13px}
+    main{padding:12px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 4px 18px rgba(0,0,0,0.45)}
+    .intro p{color:var(--muted);margin:0 0 12px}
+    .question{margin:12px 0}
+    .question label{display:block;font-weight:600;margin-bottom:6px}
+    textarea{width:100%;min-height:120px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:#050506;color:#e6eef6;resize:vertical}
+    .small{font-size:13px;color:var(--muted);margin-top:6px}
+    .controls{display:flex;justify-content:space-between;gap:12px;margin-top:18px}
+    .controls .left{display:flex;gap:8px}
+    button{background:linear-gradient(180deg,var(--accent),var(--accent-2));border:none;color:#021;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(45,212,191,0.08)}
+    button.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);font-weight:600}
+    .error{color:#ff7b7b;font-size:13px;margin-top:8px}
+    .hide{display:none}
+    .response{white-space:pre-wrap;background:#021019;padding:16px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);margin-top:12px}
+    .rpg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+    .rpg-card{background:linear-gradient(180deg,rgba(255,255,255,0.015),transparent);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)}
+    @media (max-width:720px){.app{margin:14px;padding:16px}.progress{width:50%}.question textarea{min-height:100px}}
+  </style>
+</head>
+<body>
+  <div class="app" role="main">
+    <header>
+      <h1>1-Day Reset — Interactive Protocol</h1>
+      <div>
+        <div class="progress" aria-hidden><i id="progressBar"></i></div>
+        <div class="stepper" id="stepLabel">Start</div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Steps container -->
+      <div id="steps">
+        <!-- Intro -->
+        <section class="card intro" data-step="0">
+          <h2>Introduction</h2>
+          <p>Paraphrased summary: This protocol shifts identity first, then actions. It surfaces unconscious goals, fears, and the narratives that keep you stuck. You’ll excavate psychological patterns in the morning (anti-vision, vision, and identity statement), practice daytime interrupts to break autopilot, and compress insights at night into clear goals, blockers, and gamified missions.</p>
+          <p class="small">Set aside focused time for each section. Your answers save locally. Be candid — this exercise is for your reflection.</p>
+          <div class="controls"><div></div><div><button id="startBtn">Start the Protocol</button></div></div>
+        </section>
+
+        <!-- Morning Anti-Vision -->
+        <section class="card hide" data-step="1">
+          <h2>Morning — Psychological Excavation (Anti-Vision)</h2>
+          <p class="small">First we must create a new frame. Set aside 15–30 minutes for honest excavation. Do not outsource this part to AI — write from your own voice.</p>
+
+          <div class="question">
+            <label>What is the dull and persistent dissatisfaction you’ve learned to live with?</label>
+            <textarea data-key="anti_dissatisfaction"></textarea>
+            <div class="small">Not deep suffering — what you’ve learned to tolerate. (min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>What do you complain about repeatedly but never actually change? List three complaints (comma separated).</label>
+            <textarea data-key="anti_complaints"></textarea>
+            <div class="small">Write the three complaints you’ve voiced most often in the past year. (min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>For each complaint: What would someone who watched your behavior conclude you actually want?</label>
+            <textarea data-key="anti_behavior_wants"></textarea>
+            <div class="small">Answer as if observed from the outside. (min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>What truth about your current life would be unbearable to admit to someone you deeply respect?</label>
+            <textarea data-key="anti_unbearable_truth"></textarea>
+            <div class="small">Be specific and candid. (min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>If absolutely nothing changes for the next five years, describe an average Tuesday.</label>
+            <textarea data-key="anti_tuesday_5"></textarea>
+            <div class="small">Paint the mundane details. (min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>Now do it for ten years.</label>
+            <textarea data-key="anti_tuesday_10"></textarea>
+            <div class="small">Where are you at ten years? (min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>You’re at the end of your life — what do you regret or wish you had done differently?</label>
+            <textarea data-key="anti_end_life"></textarea>
+            <div class="small">Weigh the emotional core. (min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>Who in your life is already living the future you just described?</label>
+            <textarea data-key="anti_who_lives_future"></textarea>
+            <div class="small">Name people and what they do differently. (min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>What identity would you have to give up to actually change?</label>
+            <textarea data-key="anti_identity_giveup"></textarea>
+            <div class="small">Which part of your self-image blocks change? (min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>What is the most embarrassing reason you haven’t changed?</label>
+            <textarea data-key="anti_embarrassing"></textarea>
+            <div class="small">Be honest — this helps surface fear. (min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>If your current behavior is a form of self-protection, what is it protecting you from?</label>
+            <textarea data-key="anti_self_protect"></textarea>
+            <div class="small">Name the feared consequence. (min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="controls">
+            <div class="left"><button class="secondary" id="backFromAnti">Back</button></div>
+            <div><button id="nextToVision">Next: Vision</button></div>
+          </div>
+        </section>
+
+        <!-- Morning Vision -->
+        <section class="card hide" data-step="2">
+          <h2>Morning — Vision</h2>
+          <p class="small">Now turn your excavation into a minimum viable vision. Be specific and vivid rather than practical for now.</p>
+
+          <div class="question">
+            <label>Forget practicality: If you could snap your fingers, what does an average Tuesday look like in that vision?</label>
+            <textarea data-key="vision_tuesday"></textarea>
+            <div class="small">Describe routines, energy, and relationships. (min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>What would you have to believe about yourself to make that vision inevitable?</label>
+            <textarea data-key="vision_belief"></textarea>
+            <div class="small">The identity-level beliefs. (min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>What single sentence captures who you need to become? (E.g., "I am the disciplined creator who builds meaningful work without apology.")</label>
+            <textarea data-key="vision_identity_sentence"></textarea>
+            <div class="small">This is your identity statement. (min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="controls">
+            <div class="left"><button class="secondary" id="backFromVision">Back</button></div>
+            <div><button id="nextToDaytime">Next: Daytime Interrupts</button></div>
+          </div>
+        </section>
+
+        <!-- Daytime Interrupts -->
+        <section class="card hide" data-step="3">
+          <h2>Daytime — Interrupts</h2>
+          <p class="small">During the day, use prompts to interrupt autopilot and stay aligned. Answer at least five prompts when you notice autopilot behavior.</p>
+
+          <div class="question">
+            <label>What am I avoiding right now?</label>
+            <textarea data-key="day_avoid"></textarea>
+            <div class="small">(min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>What assumption am I making about this situation that might not be true?</label>
+            <textarea data-key="day_assumption"></textarea>
+            <div class="small">(min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>If I were already the person from my vision, how would I handle this moment?</label>
+            <textarea data-key="day_if_vision"></textarea>
+            <div class="small">(min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>What small choice right now would compound into my anti-vision?</label>
+            <textarea data-key="day_compound_choice"></textarea>
+            <div class="small">(min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>What’s the most important thing I could do in the next hour?</label>
+            <textarea data-key="day_next_hour"></textarea>
+            <div class="small">(min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="controls">
+            <div class="left"><button class="secondary" id="backFromDay">Back</button></div>
+            <div><button id="nextToNight">Next: Night Compression</button></div>
+          </div>
+        </section>
+
+        <!-- Night Compression -->
+        <section class="card hide" data-step="4">
+          <h2>Night — Compression</h2>
+          <p class="small">At night, synthesize your insights. Identify blockers, compress your anti-vision and vision, and make a one-year plan with concrete daily levers.</p>
+
+          <div class="question">
+            <label>What are the 3–5 biggest blockers between you and your vision?</label>
+            <textarea data-key="night_blockers"></textarea>
+            <div class="small">List and briefly explain each. (min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>Compress your anti-vision into one terrifying sentence.</label>
+            <textarea data-key="night_anti_vision"></textarea>
+            <div class="small">One sentence that captures stakes. (min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>Compress your vision into one inspiring sentence.</label>
+            <textarea data-key="night_vision_sentence"></textarea>
+            <div class="small">Make it vivid. (min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>What’s your one-year goal that, if achieved, makes the vision feel inevitable?</label>
+            <textarea data-key="night_one_year_goal"></textarea>
+            <div class="small">(min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>What one-month project moves you decisively toward that goal?</label>
+            <textarea data-key="night_one_month_project"></textarea>
+            <div class="small">(min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="question">
+            <label>What are your three daily levers? (Simple actions that compound massively.)</label>
+            <textarea data-key="night_daily_levers"></textarea>
+            <div class="small">Be specific and actionable. (min 100 chars)</div>
+            <div class="error hide"></div>
+          </div>
+
+          <div class="controls">
+            <div class="left"><button class="secondary" id="backFromNight">Back</button></div>
+            <div><button id="completeAnalyze">Complete and Analyze</button></div>
+          </div>
+        </section>
+
+        <!-- Final analysis / result -->
+        <section class="card hide" data-step="5">
+          <h2>Analysis</h2>
+          <p class="small">Your answers have been compiled and sent for analysis. The AI will return an RPG-style life plan: level, quests, skills, boss battles, win conditions, and stakes.</p>
+          <div id="analyzeStatus" class="small">Awaiting analysis...</div>
+          <div id="analysisResult" class="hide">
+            <div class="rpg-grid" id="rpgGrid"></div>
+            <div id="rawResponse" class="response"></div>
+            <div style="margin-top:12px"><button id="restartBtn" class="secondary">Restart Protocol</button></div>
+          </div>
+        </section>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // State and steps
+    const steps = Array.from(document.querySelectorAll('[data-step]')).sort((a,b)=>+a.dataset.step-+b.dataset.step);
+    let current = 0;
+    const storageKey = 'oneDayResetAnswers_v1';
+    const progressBar = document.getElementById('progressBar');
+    const stepLabel = document.getElementById('stepLabel');
+
+    // Load saved
+    const saved = JSON.parse(localStorage.getItem(storageKey)||'{}');
+
+    function showStep(index){
+      current = index;
+      steps.forEach((s,i)=>{
+        s.classList.toggle('hide', i!==index);
+      });
+      const pct = Math.round((index)/(steps.length-1)*100);
+      progressBar.style.width = pct+'%';
+      stepLabel.textContent = index===0? 'Start' : `Step ${index} of ${steps.length-1}`;
+      // populate fields
+      document.querySelectorAll('textarea[data-key]').forEach(t=>{
+        const k = t.dataset.key;
+        if(saved[k] && !t.value) t.value = saved[k];
+      });
+    }
+
+    // Validation helper
+    function validateStep(index){
+      const step = steps[index];
+      const areas = Array.from(step.querySelectorAll('textarea[data-key]'));
+      let ok = true;
+      areas.forEach(a=>{
+        const err = a.nextElementSibling?.nextElementSibling || a.parentElement.querySelector('.error');
+        if((a.value||'').trim().length < 100){
+          ok = false;
+          if(err){err.textContent = 'Please provide a detailed response to proceed (min 100 characters).'; err.classList.remove('hide')}
+        } else {
+          if(err){err.textContent=''; err.classList.add('hide')}
+        }
+      });
+      return ok;
+    }
+
+    // Save fields for current step
+    function saveStep(index){
+      const step = steps[index];
+      Array.from(step.querySelectorAll('textarea[data-key]')).forEach(a=>{
+        saved[a.dataset.key] = a.value.trim();
+      });
+      localStorage.setItem(storageKey, JSON.stringify(saved));
+    }
+
+    // Navigation wiring
+    document.getElementById('startBtn').addEventListener('click', ()=>{ showStep(1); saveStep(0); });
+
+    document.getElementById('nextToVision').addEventListener('click', ()=>{
+      if(!validateStep(1)) return; saveStep(1); showStep(2);
+    });
+    document.getElementById('backFromAnti').addEventListener('click', ()=> showStep(0));
+
+    document.getElementById('nextToDaytime').addEventListener('click', ()=>{
+      if(!validateStep(2)) return; saveStep(2); showStep(3);
+    });
+    document.getElementById('backFromVision').addEventListener('click', ()=> showStep(1));
+
+    document.getElementById('nextToNight').addEventListener('click', ()=>{
+      if(!validateStep(3)) return; saveStep(3); showStep(4);
+    });
+    document.getElementById('backFromDay').addEventListener('click', ()=> showStep(2));
+
+    document.getElementById('completeAnalyze').addEventListener('click', async ()=>{
+      if(!validateStep(4)) return; saveStep(4);
+      showStep(5);
+      await runAnalysis();
+    });
+    document.getElementById('backFromNight').addEventListener('click', ()=> showStep(3));
+
+    document.getElementById('restartBtn').addEventListener('click', ()=>{
+      if(confirm('Clear saved answers and restart?')){ localStorage.removeItem(storageKey); location.reload(); }
+    });
+
+    // On load
+    showStep(0);
+
+    // Compile prompt
+    function compilePrompt(data){
+      return `Analyze these user responses from Dan Koe's 1-Day Reset Protocol. Use the user's answers to produce an RPG-style life plan. Map ego stages to levels: Impulsive=Level 1, Unreflective ~2-3, Socialized 4-5, Autonomous 6-7, Integrative 8, Unitive 9. Provide:\n- Estimated current level (1-9) with brief rationale referencing blockers or identity statements.\n- 3-6 Quests (actionable goals derived from their vision/anti-vision) with suggested timelines.\n- 4 Skills to level up (habits/behaviors), with micro-actions.\n- 3 Boss battles (major fears/blockers) with strategies to overcome.\n- Win condition (how the vision looks when achieved).\n- Stakes (a concise anti-vision sentence).\nMake the result engaging, narrative, and like a character sheet with a short backstory and motivational tone.\n\nUser responses:\n${JSON.stringify(data,null,2)}`;
+    }
+
+    async function runAnalysis(){
+      const status = document.getElementById('analyzeStatus');
+      const resultArea = document.getElementById('rawResponse');
+      const grid = document.getElementById('rpgGrid');
+      status.textContent = 'Compiling answers and sending to analysis...';
+      const data = saved;
+      const prompt = compilePrompt(data);
+
+      try{
+        const res = await fetch('https://api.anthropic.com/v1/messages',{
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json',
+            'x-api-key':'YOUR_API_KEY',
+            'anthropic-version':'2023-06-01'
+          },
+          body: JSON.stringify({model:'claude-4.5-opus', max_tokens:2000, messages:[{role:'user', content:prompt}]})
+        });
+
+        if(!res.ok){
+          const text = await res.text();
+          status.textContent = 'Analysis failed, try again.';
+          resultArea.textContent = `API Error ${res.status}: ${text}`;
+          document.getElementById('analysisResult').classList.remove('hide');
+          return;
+        }
+
+        const j = await res.json();
+        // Try to extract content heuristically
+        let content = '';
+        if(j.completion && typeof j.completion === 'string') content = j.completion;
+        else if(j.completion && j.completion.text) content = j.completion.text;
+        else if(j.choices && j.choices[0] && (j.choices[0].message?.content || j.choices[0].text)) content = j.choices[0].message?.content || j.choices[0].text;
+        else if(j.message && j.message.content) content = j.message.content;
+        else content = JSON.stringify(j, null, 2);
+
+        status.textContent = 'Analysis complete.';
+        document.getElementById('analysisResult').classList.remove('hide');
+        resultArea.textContent = content;
+
+        // Try to parse some sections to show RPG cards (best-effort using simple markers)
+        grid.innerHTML = '';
+        const sections = ['Level','Quests','Skills','Boss Battles','Win Condition','Stakes'];
+        // crude extraction
+        sections.forEach(title=>{
+          const rx = new RegExp(title+"[:\-]([\s\S]*?)(?=\\n\\n|$)", 'i');
+          const m = content.match(rx);
+          const div = document.createElement('div');
+          div.className = 'rpg-card';
+          div.innerHTML = `<strong>${title}</strong><div style=\"margin-top:8px;white-space:pre-wrap;font-size:13px;\">${m?m[1].trim():'<span style=\"color:var(--muted)\">(not provided)</span>'}</div>`;
+          grid.appendChild(div);
+        });
+
+      }catch(err){
+        status.textContent = 'Analysis failed, try again.';
+        document.getElementById('analysisResult').classList.remove('hide');
+        resultArea.textContent = String(err);
+      }
+    }
+
+  </script>
+</body>
+</html>
